@@ -49,7 +49,7 @@ end
 -- }}}
 
 -- This is used later as the default terminal and editor to run.
-terminal = "urxvt -fg green -bg black"
+terminal = "urxvt -fn 'xft:Inconsolata for Powerline:pixelsize=15'"
 editor = os.getenv("EDITOR") or "vim"
 editor_cmd = terminal .. " -e " .. editor
 
@@ -159,7 +159,7 @@ spacer:set_text(' | ')
 
 --Weather Widget
 weather = wibox.widget.textbox()
-vicious.register(weather, vicious.widgets.weather, "Weather: ${city}. Sky: ${sky}. Temp: ${tempc}c Humid: ${humid}%. Wind: ${windkmh} KM/h", 1200, "YMML")
+vicious.register(weather, vicious.widgets.weather, "Weather: ${city}. Sky: ${sky}. Temp: ${tempc}c Humid: ${humid}%. Wind: ${windkmh} KM/h", 1200, "ZSSS")
 
 --Battery Widget
 batt = wibox.widget.textbox()
@@ -345,7 +345,8 @@ globalkeys = awful.util.table.join(
             awful.client.focus.byidx(-1)
             if client.focus then client.focus:raise() end
         end),
-    awful.key({ }, "Print", function () awful.util.spawn("upload_screens scr") end),
+    awful.key({ }, "Print", function () awful.util.spawn("import -window root /tmp/screen.png") end),
+    awful.key({ "Control" }, "Print", function() awful.util.spawn("import /tmp/screen.png") end),
 
     -- Layout manipulation
     awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end),
@@ -374,7 +375,8 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Control" }, "l",     function () awful.tag.incncol(-1)         end),
     awful.key({ modkey,           }, "space", function () awful.layout.inc(layouts,  1) end),
     awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(layouts, -1) end),
-    awful.key({ modkey,           }, "w",     function () awful.util.spawn("luakit")    end, "Start Luakit Web Browser"),
+    awful.key({ modkey,           }, "w",     function () awful.util.spawn("bash -c 'unbuffer chromium --js-flags=\"--trace-gc --allow-natives-syntax\" | tee /home/stone/v8-profiles/v8.out'")    end),
+    awful.key({ modkey,           }, "z",     function () awful.util.spawn("xscreensaver-command -lock") end),
 
     awful.key({ modkey, "Control" }, "n", awful.client.restore),
 
